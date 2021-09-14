@@ -24,6 +24,7 @@ To get started developing right away:
 └── src
     ├── App.css # Styles for your app. Feel free to customize this as you desire.
     ├── App.js # This is the root of your app. Contains static HTML right now.
+    ├── components.js # container for all the components.
         ├── SearchPage.js #
         ├── HomePage.js #
             ├── Header.js #
