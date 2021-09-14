@@ -1,11 +1,13 @@
 import React from "react";
+import { Link } from "react-router-dom";
+import BooksApp from "./../App";
 
 const SearchBtn = () => {
   return (
     <div className="open-search">
-      <button onClick={() => this.setState({ showSearchPage: true })}>
-        Add a book
-      </button>
+      <Link to={`/search`}>
+        <button>Add a BooksApp</button>
+      </Link>
     </div>
   );
 };

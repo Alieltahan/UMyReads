@@ -9,9 +9,7 @@ import { produce } from "immer";
 class BooksApp extends Component {
   state = {
     allBooks: [],
-    listCurrReading: [],
-    listWantToRead: [],
-    listRead: [],
+
     /**
      * TODO: Instead of using this state variable to keep track of which page
      * we're on, use the URL in the browser's address bar. This will ensure that
@@ -24,22 +22,38 @@ class BooksApp extends Component {
     // Calling the API to get the books Object & updating the state with it.
     const data = BooksAPI.getAll();
     data.then((books) => {
-      const currReading = books.filter(
-        (book) => book.shelf === "currentlyReading"
-      );
-      const wantToRead = books.filter((book) => book.shelf === "wantToRead");
-      const read = books.filter((book) => book.shelf === "read");
       this.setState({
         allBooks: books,
-        listCurrReading: currReading,
-        listWantToRead: wantToRead,
-        listRead: read,
       });
     });
   }
 
+  //**
+  // * @param {The Selected Book via options} bookSelected
+  //  * @param {The Selected new Shelf to move the Book To} shelf
+  // * @description: Handling changing the shelf
+  // **//
+  handleChangeShelf = (shelf, bookSelected) => {
+    const booksClone = this.state.allBooks.filter(
+      (book) => book.id !== bookSelected.id
+    );
+    bookSelected.shelf = shelf;
+    this.setState({
+      ...booksClone.push(bookSelected),
+    });
+  };
+
   render() {
-    const { listCurrReading, listWantToRead, listRead } = this.state;
+    const { allBooks } = this.state;
+    // Filtering the books based on the shelves category
+    const listCurrReading = allBooks.filter(
+      (book) => book.shelf === "currentlyReading"
+    );
+    const listWantToRead = allBooks.filter(
+      (book) => book.shelf === "wantToRead"
+    );
+    const listRead = allBooks.filter((book) => book.shelf === "read");
+
     return (
       <div className="app">
         {/* Using switch = must put the most generic path descending */}
@@ -52,6 +66,8 @@ class BooksApp extends Component {
                 listCurrReading={listCurrReading}
                 listWantToRead={listWantToRead}
                 listRead={listRead}
+                allBooks={allBooks}
+                onChangeShelf={this.handleChangeShelf}
               />
             )}
           />
