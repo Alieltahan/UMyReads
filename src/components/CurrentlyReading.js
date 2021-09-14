@@ -36,7 +36,7 @@ class CurrentlyReading extends Component {
                     />
                     <div className="book-shelf-changer">
                       <select
-                        // value={this.state.value}
+                        value="move"
                         onChange={(e) => this.handleClickShelf(e, book)}
                       >
                         <option value="move" disabled>
