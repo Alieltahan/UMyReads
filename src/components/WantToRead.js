@@ -11,7 +11,7 @@ class WantToRead extends Component {
   handleClickShelf = (shelf, book) => {
     this.setState({ value: shelf });
     this.props.onChangeShelf(shelf, book);
-    this.setState({ value: "" });
+    // this.setState({ value: "" });
   };
   render() {
     const { listWantToRead } = this.props;

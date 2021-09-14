@@ -8,8 +8,9 @@ class CurrentlyReading extends Component {
     };
   }
 
-  handleClickShelf = (shelf, book) => {
-    console.log(shelf);
+  handleClickShelf = (e, book) => {
+    const shelf = e.target.value;
+    console.log(shelf, "E", book);
     this.setState({ value: shelf });
     this.props.onChangeShelf(shelf, book);
   };
@@ -35,10 +36,8 @@ class CurrentlyReading extends Component {
                     />
                     <div className="book-shelf-changer">
                       <select
-                        value={this.state.value}
-                        onChange={(e) =>
-                          this.handleClickShelf(e.target.value, book)
-                        }
+                        // value={this.state.value}
+                        onChange={(e) => this.handleClickShelf(e, book)}
                       >
                         <option value="move" disabled>
                           Move to...
