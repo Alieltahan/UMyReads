@@ -23,7 +23,7 @@ const BookRender = ({ books, onChangeShelf }) => {
                 <div className="book-shelf-changer">
                   <select
                     value="move"
-                    onChange={(e) => this.handleClickShelf(e, book)}
+                    onChange={(e) => handleClickShelf(e, book)}
                   >
                     <option value="move" disabled>
                       Move to...

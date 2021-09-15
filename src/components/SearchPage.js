@@ -51,7 +51,7 @@ const SearchPage = ({ onSearch }) => {
       <div className="search-books-results">
         <ol className="books-grid" />
       </div>
-      <SearchResult />
+      {/* <SearchResult /> */}
     </div>
   );
 };
