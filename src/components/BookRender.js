@@ -5,7 +5,9 @@ const BookRender = ({ books, onChangeShelf }) => {
     const shelf = e.target.value;
     onChangeShelf(shelf, book);
   };
-  let renderBooks = <p>No books found for the search criteria</p>;
+  // Handling Conditional rendering if no resultt found for searching.
+  let renderBooks = <p>No books/author found for the search criteria</p>;
+
   if (books.length > 0) {
     renderBooks = books.map((book) => (
       <li key={book.id}>
