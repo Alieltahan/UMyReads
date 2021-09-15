@@ -4,11 +4,11 @@ import "./App.css";
 import HomePage from "./components/HomePage";
 import SearchPage from "./components/SearchPage";
 import { Route, Switch } from "react-router";
-import { produce } from "immer";
 
 class BooksApp extends Component {
   state = {
     allBooks: [],
+    searchBooks: [],
 
     /**
      * TODO: Instead of using this state variable to keep track of which page
@@ -32,6 +32,7 @@ class BooksApp extends Component {
   // * @param {The Selected Book via options} bookSelected
   //  * @param {The Selected new Shelf to move the Book To} shelf
   // * @description: Handling changing the shelf
+  // * updating the API
   // **//
   handleChangeShelf = (shelf, bookSelected) => {
     const booksClone = this.state.allBooks.filter(
@@ -40,6 +41,17 @@ class BooksApp extends Component {
     bookSelected.shelf = shelf;
     this.setState({
       ...booksClone.push(bookSelected),
+    });
+    BooksAPI.update(bookSelected, shelf);
+  };
+
+  // Handling the Search for Books
+  handleSearchInput = (searchInput) => {
+    BooksAPI.search(searchInput).then((data) => {
+      this.setState({
+        searchBooks: data,
+      });
+      console.log(this.state.searchBooks);
     });
   };
 
@@ -58,7 +70,10 @@ class BooksApp extends Component {
       <div className="app">
         {/* Using switch = must put the most generic path descending */}
         <Switch>
-          <Route path="/search" component={SearchPage} />
+          <Route
+            path="/search"
+            render={() => <SearchPage onSearch={this.handleSearchInput} />}
+          />
           <Route
             path="/"
             render={() => (
