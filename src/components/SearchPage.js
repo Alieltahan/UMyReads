@@ -1,7 +1,30 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
-const SearchPage = () => {
+const SearchPage = ({ onSearch }) => {
+  const [userInput, setUserInput] = useState();
+
+  // Using useEffect to get executed once the dependencies changed.
+  // using timers to reduce the executes on each key entered, also the clean up function to remove the timer on each change
+  // (so the first function never executed as long there is typing speed > 0.6 sec.)
+  useEffect(
+    () => {
+      const inputTimer = setTimeout(() => {
+        console.log(userInput);
+        if (userInput) onSearch(userInput);
+        else return;
+      }, 600);
+
+      return () => {
+        clearTimeout(inputTimer);
+      };
+    },
+    [userInput, onSearch]
+  );
+  const handleChange = (e) => {
+    const input = e.target.value;
+    setUserInput(input);
+  };
   return (
     <div className="search-books">
       <div className="search-books-bar">
@@ -17,12 +40,18 @@ const SearchPage = () => {
           However, remember that the BooksAPI.search method DOES search by title or author. So, don't worry if
           you don't find a specific author or title. Every search is limited by search terms.
         */}
-          <input type="text" placeholder="Search by title or author" />
+          <input
+            value={userInput}
+            onChange={handleChange}
+            type="text"
+            placeholder="Search by title or author"
+          />
         </div>
       </div>
       <div className="search-books-results">
         <ol className="books-grid" />
       </div>
+      <SearchResult />
     </div>
   );
 };
