@@ -8,7 +8,7 @@ import { Route, Switch } from "react-router";
 class BooksApp extends Component {
   state = {
     allBooks: [],
-    searchBooks: [],
+    searchResult: [],
   };
 
   UNSAFE_componentWillMount() {
@@ -42,7 +42,7 @@ class BooksApp extends Component {
   handleSearchInput = (searchInput) => {
     BooksAPI.search(searchInput).then((data) => {
       this.setState({
-        searchBooks: data,
+        searchResult: data,
       });
     });
   };
@@ -51,7 +51,6 @@ class BooksApp extends Component {
   handleSearchShelf = (shelf, bookSelected) => {
     const booksClone = this.state.allBooks;
     bookSelected.shelf = shelf;
-    console.log(bookSelected.shelf, "BookSelected Shelf");
     booksClone.push(bookSelected);
     this.setState({
       allBooks: booksClone,
@@ -60,7 +59,8 @@ class BooksApp extends Component {
   };
 
   render() {
-    const { allBooks, searchBooks } = this.state;
+    const { allBooks, searchResult } = this.state;
+
     // Filtering the books based on the shelves category
     const listCurrReading = allBooks.filter(
       (book) => book.shelf === "currentlyReading"
@@ -79,7 +79,7 @@ class BooksApp extends Component {
             render={() => (
               <SearchPage
                 onSearch={this.handleSearchInput}
-                searchedBooks={searchBooks}
+                searchedBooks={searchResult}
                 onChangeShelf={this.handleSearchShelf}
               />
             )}

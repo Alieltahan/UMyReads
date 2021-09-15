@@ -9,20 +9,17 @@ const SearchPage = ({ onSearch, searchedBooks, onChangeShelf }) => {
   // Using useEffect to get executed once the dependencies changed.
   // using timers to reduce the executes on each key entered, also the clean up function to remove the timer on each change
   // (so the first function never executed as long there is typing speed > 0.6 sec.)
-  useEffect(
-    () => {
-      const inputTimer = setTimeout(() => {
-        // console.log(userInput);
-        if (userInput) onSearch(userInput);
-        else return;
-      }, 600);
+  useEffect(() => {
+    const inputTimer = setTimeout(() => {
+      if (userInput) onSearch(userInput);
+      else return;
+    }, 600);
 
-      return () => {
-        clearTimeout(inputTimer);
-      };
-    },
-    [userInput, onSearch, value]
-  );
+    return () => {
+      clearTimeout(inputTimer);
+    };
+  }, [userInput, onSearch, value]);
+
   const handleChange = (e) => {
     const input = e.target.value;
     setUserInput(input);
