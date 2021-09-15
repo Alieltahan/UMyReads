@@ -9,16 +9,9 @@ class BooksApp extends Component {
   state = {
     allBooks: [],
     searchBooks: [],
-
-    /**
-     * TODO: Instead of using this state variable to keep track of which page
-     * we're on, use the URL in the browser's address bar. This will ensure that
-     * users can use the browser's back and forward buttons to navigate between
-     * pages, as well as provide a good URL they can bookmark and share.
-     */
   };
 
-  componentWillMount() {
+  UNSAFE_componentWillMount() {
     // Calling the API to get the books Object & updating the state with it.
     const data = BooksAPI.getAll();
     data.then((books) => {
@@ -51,12 +44,23 @@ class BooksApp extends Component {
       this.setState({
         searchBooks: data,
       });
-      console.log(this.state.searchBooks);
     });
   };
 
+  // Handling the Searched Books to add to Shelves
+  handleSearchShelf = (shelf, bookSelected) => {
+    const booksClone = this.state.allBooks;
+    bookSelected.shelf = shelf;
+    console.log(bookSelected.shelf, "BookSelected Shelf");
+    booksClone.push(bookSelected);
+    this.setState({
+      allBooks: booksClone,
+    });
+    BooksAPI.update(bookSelected, shelf);
+  };
+
   render() {
-    const { allBooks } = this.state;
+    const { allBooks, searchBooks } = this.state;
     // Filtering the books based on the shelves category
     const listCurrReading = allBooks.filter(
       (book) => book.shelf === "currentlyReading"
@@ -72,7 +76,13 @@ class BooksApp extends Component {
         <Switch>
           <Route
             path="/search"
-            render={() => <SearchPage onSearch={this.handleSearchInput} />}
+            render={() => (
+              <SearchPage
+                onSearch={this.handleSearchInput}
+                searchedBooks={searchBooks}
+                onChangeShelf={this.handleSearchShelf}
+              />
+            )}
           />
           <Route
             path="/"

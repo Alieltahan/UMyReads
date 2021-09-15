@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import BookRender from "./BookRender";
 
-const SearchPage = ({ onSearch }) => {
+const SearchPage = ({ onSearch, searchedBooks, onChangeShelf }) => {
   const [userInput, setUserInput] = useState();
+  const [value, setValue] = useState();
 
   // Using useEffect to get executed once the dependencies changed.
   // using timers to reduce the executes on each key entered, also the clean up function to remove the timer on each change
@@ -10,7 +12,7 @@ const SearchPage = ({ onSearch }) => {
   useEffect(
     () => {
       const inputTimer = setTimeout(() => {
-        console.log(userInput);
+        // console.log(userInput);
         if (userInput) onSearch(userInput);
         else return;
       }, 600);
@@ -19,12 +21,18 @@ const SearchPage = ({ onSearch }) => {
         clearTimeout(inputTimer);
       };
     },
-    [userInput, onSearch]
+    [userInput, onSearch, value]
   );
   const handleChange = (e) => {
     const input = e.target.value;
     setUserInput(input);
   };
+
+  const handleClickShelf = (shelf, book) => {
+    setValue(shelf);
+    onChangeShelf(shelf, book);
+  };
+
   return (
     <div className="search-books">
       <div className="search-books-bar">
@@ -32,14 +40,6 @@ const SearchPage = ({ onSearch }) => {
           <button className="close-search">Close</button>
         </Link>
         <div className="search-books-input-wrapper">
-          {/*
-          NOTES: The search from BooksAPI is limited to a particular set of search terms.
-          You can find these search terms here:
-          https://github.com/udacity/reactnd-project-myreads-starter/blob/master/SEARCH_TERMS.md
-
-          However, remember that the BooksAPI.search method DOES search by title or author. So, don't worry if
-          you don't find a specific author or title. Every search is limited by search terms.
-        */}
           <input
             value={userInput}
             onChange={handleChange}
@@ -51,7 +51,9 @@ const SearchPage = ({ onSearch }) => {
       <div className="search-books-results">
         <ol className="books-grid" />
       </div>
-      {/* <SearchResult /> */}
+      {searchedBooks && (
+        <BookRender books={searchedBooks} onChangeShelf={handleClickShelf} />
+      )}
     </div>
   );
 };

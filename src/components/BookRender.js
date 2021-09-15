@@ -5,6 +5,7 @@ const BookRender = ({ books, onChangeShelf }) => {
     const shelf = e.target.value;
     onChangeShelf(shelf, book);
   };
+  // const validBooks = books ?
   return (
     <div className="bookshelf-books">
       <ol className="books-grid">
