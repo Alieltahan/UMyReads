@@ -9,9 +9,9 @@ class CurrentlyReading extends Component {
     };
   }
 
-  handleClickShelf = (shelf, book) => {
+  handleClickShelf = ( book, shelf) => {
     this.setState({ value: shelf });
-    this.props.onChangeShelf(shelf, book);
+    this.props.onChangeShelf(book,shelf);
   };
   render() {
     return (

@@ -27,7 +27,7 @@ class BooksApp extends Component {
   // * @description: Handling changing the shelf
   // * updating the API
   // **//
-  handleChangeShelf = (shelf, bookSelected) => {
+  handleChangeShelf = ( bookSelected, shelf) => {
     const booksClone = this.state.allBooks.filter(
       (book) => book.id !== bookSelected.id
     );
@@ -39,23 +39,37 @@ class BooksApp extends Component {
   };
 
   // Handling the Search for Books
-  handleSearchInput = (searchInput) => {
-    BooksAPI.search(searchInput).then((data) => {
+  handleSearchInput = (searchText) => {
+    let booksWithShelf = []
+    BooksAPI.search(searchText).then((data) => {
+
+      const uniqueBooks = data.filter(bookSearched => !this.state.allBooks.some(currBooks => bookSearched.id === currBooks.id) )
+      const commonBooks = data.filter(o1 => this.state.allBooks.some(o2 => o1.id === o2.id))
+      // Guard case if nothing in Common
+      if(commonBooks.length >0){
+      commonBooks.map(book => BooksAPI.get((book.id)).then(data => booksWithShelf.push(data)).then(()=>{
       this.setState({
-        searchResult: data,
+        searchResult: [ ...uniqueBooks, ...booksWithShelf]
       });
-    });
+      }))}
+      else {
+         this.setState({
+        searchResult: uniqueBooks
+      })}
+      // Handling Rejection Error by updating the state to Empty Array.
+    }).catch(err=> { this.setState({ searchResult: [] } ) })
   };
 
   // Handling the Searched Books to add to Shelves
-  handleSearchShelf = (shelf, bookSelected) => {
+  handleSearchShelf = ( bookSelected, shelf) => {
     const booksClone = this.state.allBooks;
-    bookSelected.shelf = shelf;
+    bookSelected.shelf = `${shelf}`;
     booksClone.push(bookSelected);
     this.setState({
       allBooks: booksClone,
     });
     BooksAPI.update(bookSelected, shelf);
+    console.log(BooksAPI.update(bookSelected, shelf))
   };
 
   render() {

@@ -3,7 +3,9 @@ import { Link } from "react-router-dom";
 import BookRender from "./BookRender";
 
 const SearchPage = ({ onSearch, searchedBooks, onChangeShelf }) => {
+  // Managing the userInput
   const [userInput, setUserInput] = useState();
+  // Managing the Shelves Change
   const [value, setValue] = useState();
 
   // Using useEffect to get executed once the dependencies changed.
@@ -12,8 +14,7 @@ const SearchPage = ({ onSearch, searchedBooks, onChangeShelf }) => {
   useEffect(() => {
     const inputTimer = setTimeout(() => {
       if (userInput) onSearch(userInput);
-      else return;
-    }, 600);
+    }, 400);
 
     return () => {
       clearTimeout(inputTimer);
@@ -25,10 +26,19 @@ const SearchPage = ({ onSearch, searchedBooks, onChangeShelf }) => {
     setUserInput(input);
   };
 
-  const handleClickShelf = (shelf, book) => {
+  const handleClickShelf = (book, shelf) => {
+    onChangeShelf(book, shelf);
     setValue(shelf);
-    onChangeShelf(shelf, book);
   };
+
+  let renderSearch = (
+    <p className="books-grid">Start typing to find your matched books/author</p>
+  );
+  if (userInput !== "") {
+    renderSearch = (
+      <BookRender books={searchedBooks} onChangeShelf={handleClickShelf} />
+    );
+  }
 
   return (
     <div className="search-books">
@@ -46,11 +56,9 @@ const SearchPage = ({ onSearch, searchedBooks, onChangeShelf }) => {
         </div>
       </div>
       <div className="search-books-results">
+        {renderSearch}
         <ol className="books-grid" />
       </div>
-      {searchedBooks && (
-        <BookRender books={searchedBooks} onChangeShelf={handleClickShelf} />
-      )}
     </div>
   );
 };
