@@ -2,12 +2,10 @@
 
 - Simple App for managing books which Currently Reading, Want to Read and Read.
 - Having a search functionality for adding new books to the desired shelf.
-- Search page with AJAX call for Book title/Author. 
+- Search page with AJAX call for Book title/Author.
 - Routing functionality between the Home Page & Search Page.
 
 ## TL;DR
-
-To get started developing right away:
 
 - install all project dependencies with `npm install`
 - start the development server with `npm start`
