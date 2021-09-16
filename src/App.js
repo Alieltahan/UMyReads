@@ -20,7 +20,6 @@ class BooksApp extends Component {
       });
     });
   }
-
   //**
   // * @param {The Selected Book via options} bookSelected
   //  * @param {The Selected new Shelf to move the Book To} shelf
