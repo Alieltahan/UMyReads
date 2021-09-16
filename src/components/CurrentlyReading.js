@@ -2,16 +2,12 @@ import React, { Component } from "react";
 import BookRender from "./BookRender";
 
 class CurrentlyReading extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      value: "",
-    };
-  }
-
-  handleClickShelf = ( book, shelf) => {
-    this.setState({ value: shelf });
-    this.props.onChangeShelf(book,shelf);
+  //**
+  //  * @param {book} book : Getting the book object
+  //  * @param {book.shelf} shelf getting the current book's shelf
+  //  */
+  handleClickShelf = (book, shelf) => {
+    this.props.onChangeShelf(book, shelf);
   };
   render() {
     return (

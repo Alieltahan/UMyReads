@@ -2,16 +2,14 @@ import React, { Component } from "react";
 import BookRender from "./BookRender";
 
 class Read extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      value: "",
-    };
-  }
-
+  //**
+  // Handling changing the shelf change.
+  //  *
+  //  * @param {book} book: getting the entire book object.
+  //  * @param {book.shelf} shelf: getting the selected shelf.
+  //  */
   handleClickShelf = (book, shelf) => {
-    this.setState({ value: shelf });
-    this.props.onChangeShelf( book, shelf);
+    this.props.onChangeShelf(book, shelf);
   };
   render() {
     const { listRead } = this.props;

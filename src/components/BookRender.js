@@ -1,16 +1,20 @@
 import React from "react";
 
 const BookRender = ({ books, onChangeShelf }) => {
+  //**
+  // Handling changing the shelf change.
+  //  * @param {book} book: getting the entire book object.
+  //  * @param {book.shelf} shelf: getting the selected shelf.
+  //  */
   const handleClickShelf = (book, e) => {
     const shelf = e.target.value;
-    onChangeShelf(book, shelf );
+    onChangeShelf(book, shelf);
   };
 
   // Handling Conditional rendering if no resultt found for searching.
   let renderBooks = <p>No books/author found for the search criteria</p>;
 
   if (books.length > 0) {
-      
     renderBooks = books.map((book) => (
       <li key={book.id}>
         <div className="book">
@@ -26,7 +30,10 @@ const BookRender = ({ books, onChangeShelf }) => {
               }}
             />
             <div className="book-shelf-changer">
-              <select value={book.hasOwnProperty('shelf') ? book.shelf : `none`} onChange={(e) => handleClickShelf(book, e)}>
+              <select
+                value={book.hasOwnProperty("shelf") ? book.shelf : `none`}
+                onChange={(e) => handleClickShelf(book, e)}
+              >
                 <option value="move" disabled>
                   Move to...
                 </option>
