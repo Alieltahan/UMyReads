@@ -8,6 +8,7 @@ body {
 
 body, .app {
   background: white;
+  font-size: 15px;
 }
 
 /* main page */
